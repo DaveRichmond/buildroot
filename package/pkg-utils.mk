@@ -96,6 +96,7 @@ endef
 # $(1): upper-case package or filesystem name
 define json-info
 	"$($(1)_NAME)": {
+		"name": "$($(1)_RAWNAME)",
 		"type": "$($(1)_TYPE)",
 		$(if $(filter rootfs,$($(1)_TYPE)), \
 			$(call _json-info-fs,$(1)), \
@@ -166,8 +167,9 @@ endef
 clean-json = $(strip \
 	$(subst $(comma)},}, $(subst $(comma)$(space)},$(space)}, \
 	$(subst $(comma)],], $(subst $(comma)$(space)],$(space)], \
+	$(subst \,\\, \
 		$(strip $(1)) \
-	)))) \
+	))))) \
 )
 
 ifeq ($(BR2_PER_PACKAGE_DIRECTORIES),y)

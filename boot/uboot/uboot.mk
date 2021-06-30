@@ -12,7 +12,7 @@ ifeq ($(BR2_TARGET_UBOOT_LATEST_VERSION),y)
 UBOOT_LICENSE_FILES = Licenses/gpl-2.0.txt
 endif
 UBOOT_CPE_ID_VENDOR = denx
-UBOOT_CPE_ID_NAME = u-boot
+UBOOT_CPE_ID_PRODUCT = u-boot
 
 UBOOT_INSTALL_IMAGES = YES
 
@@ -173,9 +173,9 @@ UBOOT_DEPENDENCIES += host-dtc
 endif
 
 ifeq ($(BR2_TARGET_UBOOT_NEEDS_PYTHON2),y)
-UBOOT_DEPENDENCIES += host-python
+UBOOT_DEPENDENCIES += host-python host-python-setuptools
 else ifeq ($(BR2_TARGET_UBOOT_NEEDS_PYTHON3),y)
-UBOOT_DEPENDENCIES += host-python3
+UBOOT_DEPENDENCIES += host-python3 host-python3-setuptools
 endif
 
 ifeq ($(BR2_TARGET_UBOOT_NEEDS_PYLIBFDT),y)
@@ -498,6 +498,7 @@ $(eval $(generic-package))
 else ifeq ($(BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG),y)
 UBOOT_MAKE_ENV = $(TARGET_MAKE_ENV)
 UBOOT_KCONFIG_DEPENDENCIES = \
+	$(BR2_MAKE_HOST_DEPENDENCY) \
 	$(BR2_BISON_HOST_DEPENDENCY) \
 	$(BR2_FLEX_HOST_DEPENDENCY)
 $(eval $(kconfig-package))

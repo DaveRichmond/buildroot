@@ -11,10 +11,11 @@
 # and IPv6 updates.
 # http://www.spinics.net/lists/netdev/msg279881.html
 
-IPUTILS_VERSION = 20200821
-IPUTILS_SITE = $(call github,iputils,iputils,s$(IPUTILS_VERSION))
+IPUTILS_VERSION = 20210202
+IPUTILS_SITE = $(call github,iputils,iputils,$(IPUTILS_VERSION))
 IPUTILS_LICENSE = GPL-2.0+, BSD-3-Clause
 IPUTILS_LICENSE_FILES = LICENSE Documentation/LICENSE.BSD3 Documentation/LICENSE.GPL2
+IPUTILS_CPE_ID_VENDOR = iputils_project
 IPUTILS_DEPENDENCIES = $(TARGET_NLS_DEPENDENCIES)
 
 # Selectively build binaries
@@ -83,11 +84,6 @@ endif
 #
 ifeq ($(BR2_PACKAGE_IPUTILS_TFTPD),y)
 IPUTILS_CONF_OPTS += -DBUILD_TFTPD=true
-
-define IPUTILS_MOVE_TFTPD_BINARY
-	mv $(TARGET_DIR)/usr/bin/tftpd $(TARGET_DIR)/usr/sbin/tftpd
-endef
-IPUTILS_POST_INSTALL_TARGET_HOOKS += IPUTILS_MOVE_TFTPD_BINARY
 
 else
 IPUTILS_CONF_OPTS += -DBUILD_TFTPD=false
